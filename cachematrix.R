@@ -8,16 +8,16 @@ makeCacheMatrix <- function(x = matrix()) {
 
 ## This function computes the inverse of the special "matrix" returned by makeCacheMatrix above. If the inverse has already been calculated (and the matrix has not changed), then the cachesolve should retrieve the inverse from the cache.
 cacheSolve <- function(matrix_obj) {
-  print(matrix_obj)
+  
   if (!is.null(matrix_obj$inverse)) {
     message("retrieving inverse from cache")
     
-    matrix_obj$inverse
+    matrix_obj
   } else{
     message("creating new inverse and caching")
     
-    matrix_obj$inverse<- solve(matrix_obj$matrix) #I would like this to alter the actual matrix_obj - but it looks like a copy of matrix_obj was passed, not the acutual list
-    matrix_obj$inverse
+    matrix_obj$inverse<- solve(matrix_obj$matrix)
+    matrix_obj
   }
   
 }
@@ -29,14 +29,13 @@ my_matrix <- matrix(c(3, 4, 1, 4, 8, 2, 7, 2, 0), nrow = 3, ncol = 3)
 my_matrix_obj <- makeCacheMatrix(my_matrix)
 my_matrix_obj
 
+
 #first time, creates a new inverse
-my_matrix_obj_inverse <- cacheSolve(my_matrix_obj)
+my_matrix_obj <- cacheSolve(my_matrix_obj)
 my_matrix_obj
-my_matrix_obj_inverse
+my_matrix_obj$inverse
 
 
 #second time, getting inverse from cache
-my_matrix_obj_inverse_2 <- cacheSolve(my_matrix_obj)
-
-my_matrix_obj_inverse
-my_matrix_obj_inverse_2
+my_matrix_obj_2 <- cacheSolve(my_matrix_obj)
+my_matrix_obj_2
